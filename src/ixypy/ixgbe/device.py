@@ -242,7 +242,7 @@ class IxgbeDevice(IxyDevice):
         # Descriptor writeback magic values, important to get good performance and low PCIe overhead
         # Sec 7.2.3.4.1 and 7.2.3.5
         txdctl = self.reg.get(types.IXGBE_TXDCTL(index))
-        txdctl = txdctl & ~(0x3F | (0x3F << 8) | (0x3F << 16))
+        txdctl = txdctl & ~(0x7F | (0x7F << 8) | (0x7F << 16))
         txdctl = txdctl | (36 | (8 << 8) | (4 << 16))
         self.reg.set(types.IXGBE_TXDCTL(index), txdctl)
         queue = TxQueue(mem, self.NUM_TX_QUEUE_ENTRIES, index)
