@@ -247,7 +247,7 @@ class PCIDevice(object):
 class PCIVendor(Enum):
     virt_io = 0x1af4
     intel = 0x8086
-
+    plx = 0x10b5
 
 class PCIClass(Enum):
     unclassified = 0x00
