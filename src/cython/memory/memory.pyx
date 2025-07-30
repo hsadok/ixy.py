@@ -20,7 +20,7 @@ cdef uintptr_t virt_to_phys(void* virt):
     cdef long pagesize = <long>resource.getpagesize()
     fd = os.open("/proc/self/pagemap", os.O_RDONLY)
 
-    cdef uintptr_t offset = <uintptr_t> virt / pagesize * sizeof(uintptr_t)
+    cdef uintptr_t offset = <uintptr_t> virt // pagesize * sizeof(uintptr_t)
     os.lseek(fd, offset, os.SEEK_SET)
     cdef uintptr_t phy = <uintptr_t>(array.array('Q', os.read(fd, sizeof(phy)))[0])
     os.close(fd)

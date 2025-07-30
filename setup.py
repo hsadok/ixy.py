@@ -32,8 +32,9 @@ setup(
         "License :: OSI Approved :: BSD License",
     ],
     include_package_data=True,
-    install_requires=['numpy==1.15.4'],
-    setup_requires=[],
+    install_requires=['numpy'],
+    setup_requires=['cython'],
+    test_requires=['pytest', 'tox'],
     packages=find_packages('src'),
     package_dir={'': 'src'},
     ext_modules=cythonize(extentions, annotate=True))
