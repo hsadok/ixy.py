@@ -108,7 +108,10 @@ class MmapRegister(object):
         self.mem_buffer = memoryview(mm)
         self.reg_vals = np.frombuffer(self.mem_buffer, dtype=np.uint32)
 
-    def set(self, offset, value):
+    def set(self, offset, value, mask=None):
+        if mask is not None:
+            current = self.get(offset)
+            value = (current & ~mask) | (value & mask)
         self.reg_vals[offset//4] = value
 
     def set_flags(self, offset, flags):
