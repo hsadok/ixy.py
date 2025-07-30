@@ -6,7 +6,8 @@
 
 
 # Cython
-memory.c
+src/cython/memory/memory.c
+src/cython/memory/memory.html
 buff.c
 virtio.c
 
