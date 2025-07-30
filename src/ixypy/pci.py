@@ -183,15 +183,15 @@ class PCIDeviceController(object):
         else:
             raise RuntimeError('No bound driver')
 
-    def map_resource(self):
-        resource_fd, size = self.resource()
+    def map_resource(self, resource_index=0):
+        resource_fd, size = self.resource(resource_index)
         try:
             return mmap(resource_fd.fileno(), size, flags=MAP_SHARED, prot=PROT_READ | PROT_WRITE)
         except OSError:
             raise MmapNotSupportedException('Failed mapping device<{}>'.format(self.device_path))
 
-    def resource(self):
-        resource_path = '{}/resource0'.format(self.device_path)
+    def resource(self, resource_index=0):
+        resource_path = '{}/resource{}'.format(self.device_path, resource_index)
         if os.path.exists(resource_path):
             size = os.stat(resource_path).st_size
             return open(resource_path, 'r+b'), size
@@ -222,8 +222,8 @@ class PCIDevice(object):
     def unbind_driver(self):
         self.pci_controller.unbind_driver(self.address)
 
-    def map_resource(self):
-        return self.pci_controller.map_resource()
+    def map_resource(self, resource_index=0):
+        return self.pci_controller.map_resource(resource_index)
 
     def config(self):
         return PCIConfigurationReader(self.pci_controller.config_path()).read()
